@@ -1,11 +1,25 @@
 package com.bookstore.entity;
 
+
+import javax.persistence.*;
+
+@Table(name = "book")
+@Entity
 public class Book {
 
-    private int id; // autogenerate
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
     private String isbn; //unique 22 max
+
     private String name;
+
     private int quantity;
+
+    public Book() {
+
+    }
 
     public Book(String isbn, String name) {
         this.isbn = isbn;
@@ -28,11 +42,11 @@ public class Book {
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
