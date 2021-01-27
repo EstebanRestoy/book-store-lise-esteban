@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookService implements IBookService {
@@ -15,7 +16,11 @@ public class BookService implements IBookService {
 
     @Override
     public List<Book> findAll() {
-
         return (List<Book>) repository.findAll();
+    }
+
+    @Override
+    public Optional<Book> findOneById(Long id) {
+        return repository.findById(id);
     }
 }
