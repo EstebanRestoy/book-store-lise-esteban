@@ -20,7 +20,7 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public Optional<Book> findOneById(Long id) {
-        return repository.findById(id);
+    public Optional<Book> findOneByISBN(String isbn) {
+        return repository.findById(isbn);
     }
 }

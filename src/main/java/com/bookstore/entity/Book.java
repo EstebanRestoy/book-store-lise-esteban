@@ -8,14 +8,11 @@ import javax.persistence.*;
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-
     private String isbn; //unique 22 max
 
     private String name;
 
-    private int quantity;
+    private int quantity = 0;
 
     public Book() {
 
@@ -40,14 +37,6 @@ public class Book {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public int getQuantity() {

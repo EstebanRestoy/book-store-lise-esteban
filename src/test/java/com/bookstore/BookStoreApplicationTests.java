@@ -46,15 +46,15 @@ class BookStoreApplicationTests {
 	public void testingAllBooksGET() throws Exception {
 		this.mockMvc.perform(get("/books")).andDo(print()).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(content().json("[{\"id\":1,\"isbn\":\"154871564789\",\"name\":\"Livre 1\",\"quantity\":10},{\"id\":2,\"isbn\":\"545157454574\",\"name\":\"Livre 2\",\"quantity\":2},{\"id\":3,\"isbn\":\"141574574788\",\"name\":\"Livre 3\",\"quantity\":0}]"));
+				.andExpect(content().json("[{\"isbn\":\"154871564789\",\"name\":\"Livre 1\",\"quantity\":10},{\"isbn\":\"545157454574\",\"name\":\"Livre 2\",\"quantity\":2},{\"isbn\":\"141574574788\",\"name\":\"Livre 3\",\"quantity\":0}]"));
 	}
 
 	@Test
 	public void testingOneBookGet() throws Exception {
 
-		this.mockMvc.perform(get("/book/1")).andDo(print()).andExpect(status().isOk())
+		this.mockMvc.perform(get("/book/154871564789")).andDo(print()).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(content().json("{\"id\":1,\"isbn\":\"154871564789\",\"name\":\"Livre 1\",\"quantity\":10}"));
+				.andExpect(content().json("{\"isbn\":\"154871564789\",\"name\":\"Livre 1\",\"quantity\":10}"));
 
 		this.mockMvc.perform(get("/book/999")).andDo(print()).andExpect(status().isNotFound())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON));

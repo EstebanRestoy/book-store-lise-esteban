@@ -25,12 +25,12 @@ public class BookController {
         return bookService.findAll();
     }
 
-    @GetMapping("/book/{id}")
-    public Book books(@PathVariable("id") Long id) throws Exception {
-        Optional<Book> result = bookService.findOneById(id);
+    @GetMapping("/book/{isbn}")
+    public Book books(@PathVariable("isbn") String isbn) throws Exception {
+        Optional<Book> result = bookService.findOneByISBN(isbn);
         if(result.isPresent())
             return result.get();
-        throw new BookNotFound("Book with ID : "+ id + " not found");
+        throw new BookNotFound("Book with ISBN : "+ isbn + " not found");
     }
 
 }
