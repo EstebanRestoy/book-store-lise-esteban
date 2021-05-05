@@ -23,4 +23,9 @@ public class BookService implements IBookService {
     public Optional<Book> findOneByISBN(String isbn) {
         return repository.findById(isbn);
     }
+
+    @Override
+    public void OrderBook(String isbn) {
+        //APPEL LE SERVICE DE COMMANDE
+    }
 }

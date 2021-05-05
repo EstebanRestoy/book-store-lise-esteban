@@ -63,9 +63,20 @@ class BookStoreApplicationTests {
 	@Test
 	public void testingA404() throws Exception {
 		this.mockMvc.perform(get("/aFakeRoute")).andDo(print()).andExpect(status().isNotFound());
-
 	}
 
+	@Test
+	public void testingBuyBook() throws Exception {
+
+		// missing field
+		this.mockMvc.perform(get("/buyBook?quantity=5")).andDo(print()).andExpect(status().isBadRequest());
+		this.mockMvc.perform(get("/buyBook?isbn=154871564789")).andDo(print()).andExpect(status().isBadRequest());
+
+		// wrong values
+		this.mockMvc.perform(get("/buyBook?isbn=154871564789&quantity=WRONG_QUANTITY")).andDo(print()).andExpect(status().isBadRequest());
+		this.mockMvc.perform(get("/buyBook?isbn=WRONG_ISBN&quantity=5")).andDo(print()).andExpect(status().isNotFound());
+
+	}
 
 
 }
