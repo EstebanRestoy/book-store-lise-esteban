@@ -37,35 +37,33 @@ public class BookController {
     @GetMapping("/book/{isbn}")
     public Book books(@PathVariable("isbn") String isbn) throws Exception {
         Optional<Book> result = bookService.findOneByISBN(isbn);
-        if(result.isPresent())
+        if (result.isPresent())
             return result.get();
-        throw new BookNotFound("Book with ISBN : "+ isbn + " not found");
+        throw new BookNotFound("Book with ISBN : " + isbn + " not found");
     }
 
     @GetMapping("/buyBook")
-    public String books(@RequestParam("isbn") String isbn,@RequestParam("quantity") String quantity) throws StockAPIException, BookNotFound {
+    public String buyBook(@RequestParam("isbn") String isbn,
+                          @RequestParam("quantity") String quantity) throws StockAPIException, BookNotFound {
         Optional<Book> result = bookService.findOneByISBN(isbn);
-
-        if(result.isPresent()){
+        // TODO authentification jwt
+        if (result.isPresent()) {
             RestTemplate restTemplate = new RestTemplate();
-
-            try{
-                String response = restTemplate.postForObject(Objects.requireNonNull(env.getProperty("post.remove.stock.api.url")),new HashMap<String, String>(){{
-                    put("isbn",isbn);
-                    put("quantity",quantity);
-                    put("key",env.getProperty("stock.api.key"));
-                }},String.class);
+            try {
+                String response = restTemplate.postForObject(Objects.requireNonNull(env.getProperty("post.remove.stock.api.url")), new HashMap<String, String>() {{
+                    put("isbn", isbn);
+                    put("quantity", quantity);
+                    put("key", env.getProperty("stock.api.key"));
+                }}, String.class);
 
                 logger.info(response);
                 return response;
-
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw new StockAPIException(e.getMessage());
             }
         }
-        throw new BookNotFound("Book with ISBN : "+ isbn + " not found");
+        throw new BookNotFound("Book with ISBN : " + isbn + " not found");
     }
 
-  
-
+    // TODO end point that list isbn to check isbn in whole saler service
 }
