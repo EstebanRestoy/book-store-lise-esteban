@@ -4,7 +4,8 @@ package com.bookstore.controller;
 import java.util.*;
 
 import com.bookstore.entity.Book;
-import com.bookstore.exception.*;
+import com.bookstore.exception.BookNotFound;
+import com.bookstore.exception.StockAPIException;
 import com.bookstore.service.IBookService;
 import com.bookstore.service.IValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,8 @@ public class BookController {
     }
 
     @GetMapping("/buyBook")
-    public String buyBook(@RequestParam("isbn") String isbn, @RequestParam("quantity") String quantity) throws StockAPIException, ISBNNotValidException, WrongFomatQuantityException, QuantityNotAcceptableException  {
+    public String buyBook(@RequestParam("isbn") String isbn,
+                          @RequestParam("quantity") String quantity) throws BookNotFound, StockAPIException, ISBNNotValidException, WrongFomatQuantityException, QuantityNotAcceptableException  {
 
         // Validation des inputs
         ValidationService.isValidISBN(isbn);
@@ -70,4 +72,7 @@ public class BookController {
         }
         throw new BookNotFound(isbn);
     }
+
+  
+
 }
