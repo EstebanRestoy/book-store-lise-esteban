@@ -10,7 +10,7 @@ public class Book {
     @Id
     private String isbn; //unique 22 max
 
-    private String title;
+    private String name;
 
     private String author;
 
@@ -20,9 +20,9 @@ public class Book {
 
     }
 
-    public Book(String isbn, String title, String author) {
+    public Book(String isbn, String name, String author) {
         this.isbn = isbn;
-        this.title = title;
+        this.name = name;
         this.author = author;
     }
 
@@ -34,12 +34,12 @@ public class Book {
         this.isbn = isbn;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String name) {
-        this.title = name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getQuantity() {
