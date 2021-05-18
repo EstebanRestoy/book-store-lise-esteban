@@ -45,8 +45,7 @@ class BookStoreApplicationTests {
 	@Test
 	public void testingAllBooksGET() throws Exception {
 		this.mockMvc.perform(get("/books")).andDo(print()).andExpect(status().isOk())
-				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(content().json("[{\"isbn\":\"154871564789\",\"name\":\"Livre 1\",\"quantity\":10},{\"isbn\":\"545157454574\",\"name\":\"Livre 2\",\"quantity\":2},{\"isbn\":\"141574574788\",\"name\":\"Livre 3\",\"quantity\":0}]"));
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON));
 	}
 
 	@Test

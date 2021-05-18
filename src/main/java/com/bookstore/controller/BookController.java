@@ -47,7 +47,7 @@ public class BookController {
     @GetMapping("/buyBook")
     public String buyBook(@RequestParam("isbn") String isbn,
                           @RequestParam("quantity") String quantity) throws BookNotFound, StockAPIException, ISBNNotValidException, WrongFomatQuantityException, QuantityNotAcceptableException {
-        // TODO authentification jwt
+
         // Validation des inputs
         ValidationService.isValidISBN(isbn);
         ValidationService.isValidStock(quantity);
