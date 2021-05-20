@@ -48,6 +48,7 @@ public class BookController {
     public String buyBook(@RequestParam("isbn") String isbn,
                           @RequestParam("quantity") String quantity) throws BookNotFound, StockAPIException, ISBNNotValidException, WrongFomatQuantityException, QuantityNotAcceptableException {
         // TODO authentification jwt
+        // to check that user is authenticated
         // Validation des inputs
         ValidationService.isValidISBN(isbn);
         ValidationService.isValidStock(quantity);
@@ -67,16 +68,5 @@ public class BookController {
             }
         }
         throw new BookNotFound(isbn);
-    }
-
-    @GetMapping("/isbn/{isbn}")
-    @ResponseStatus(HttpStatus.OK)
-    public String isbnExist(@RequestParam("isbn") String isbn) {
-        // TODO check key ?
-        ValidationService.isValidISBN(isbn);
-        if (this.bookService.findOneByISBN(isbn).isEmpty()) {
-            throw new BookNotFound(isbn);
-        }
-        return isbn;
     }
 }
