@@ -55,4 +55,11 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiException, HttpStatus.SERVICE_UNAVAILABLE);
     }
 
+    @ExceptionHandler(WholeSalerAPIException.class)
+    public final ResponseEntity<ApiException> handleWholeSalerAPIException(WholeSalerAPIException ex, WebRequest request) {
+        Gson g = new Gson();
+        ApiException apiException = g.fromJson(ex.getMessage().substring(7,ex.getMessage().length()-1), ApiException.class);
+        return new ResponseEntity<>(apiException, HttpStatus.SERVICE_UNAVAILABLE);
+    }
+
 }

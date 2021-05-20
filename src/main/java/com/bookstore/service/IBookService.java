@@ -12,6 +12,9 @@ public interface IBookService {
     List<Book> findAll();
     Optional<Book> findOneByISBN(String isbn);
     void OrderBook(String isbn, String quantity) throws HttpClientErrorException, HttpServerErrorException;
-    void BuyBook(String isbn, String quantity) throws HttpClientErrorException, HttpServerErrorException;
+    void AddStock(String isbn, String quantity) throws HttpClientErrorException, HttpServerErrorException;
+    void RemoveStock(String isbn, String quantity) throws HttpClientErrorException, HttpServerErrorException;
+    int CreateOrder(String isbn, int quantity) throws HttpClientErrorException, HttpServerErrorException;
+
 
 }
