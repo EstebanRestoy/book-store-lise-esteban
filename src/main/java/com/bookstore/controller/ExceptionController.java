@@ -5,8 +5,6 @@ import com.bookstore.entity.ApiException;
 import com.bookstore.exception.*;
 import com.bookstore.service.IBookService;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +24,8 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     @Autowired
     private IBookService bookService;
 
-    @ExceptionHandler(BookNotFound.class)
-    public final ResponseEntity<ApiException> handleBookNotFoundException(BookNotFound ex, WebRequest request) {
+    @ExceptionHandler(BookNotFoundException.class)
+    public final ResponseEntity<ApiException> handleBookNotFoundException(BookNotFoundException ex, WebRequest request) {
         ApiException e = new ApiException(new Date(), ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(e, HttpStatus.NOT_FOUND);
     }

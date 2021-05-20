@@ -10,12 +10,10 @@ import com.bookstore.service.IValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.client.RestTemplate;
 
 
 @RestController
@@ -41,12 +39,12 @@ public class BookController {
         Optional<Book> result = bookService.findOneByISBN(isbn);
         if (result.isPresent())
             return result.get();
-        throw new BookNotFound(isbn);
+        throw new BookNotFoundException(isbn);
     }
 
     @GetMapping("/buyBook")
     public String buyBook(@RequestParam("isbn") String isbn,
-                          @RequestParam("quantity") String quantity) throws BookNotFound, StockAPIException, ISBNNotValidException, WrongFomatQuantityException, QuantityNotAcceptableException {
+                          @RequestParam("quantity") String quantity) throws BookNotFoundException, StockAPIException, ISBNNotValidException, WrongFomatQuantityException, QuantityNotAcceptableException {
         // TODO authentification jwt
         // to check that user is authenticated
         // Validation des inputs
@@ -67,6 +65,6 @@ public class BookController {
                 throw new StockAPIException(e.getMessage());
             }
         }
-        throw new BookNotFound(isbn);
+        throw new BookNotFoundException(isbn);
     }
 }
