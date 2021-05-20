@@ -1,14 +1,14 @@
 package com.bookstore.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-@Table(name = "user")
+@Table(name = "t_user")
 @Entity
 public class User {
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "serial")
+    private long id;
     private String name;
     private String token;
 
@@ -20,7 +20,7 @@ public class User {
         this.token = token;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
