@@ -8,22 +8,22 @@ import javax.persistence.*;
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-
     private String isbn; //unique 22 max
 
-    private String name;
+    private String title;
 
-    private int quantity;
+    private String author;
+
+    private int quantity = 0;
 
     public Book() {
 
     }
 
-    public Book(String isbn, String name) {
+    public Book(String isbn, String title, String author) {
         this.isbn = isbn;
-        this.name = name;
+        this.title = title;
+        this.author = author;
     }
 
     public String getIsbn() {
@@ -34,20 +34,12 @@ public class Book {
         this.isbn = isbn;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+    public void setTitle(String name) {
+        this.title = name;
     }
 
     public int getQuantity() {
@@ -56,5 +48,13 @@ public class Book {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }
