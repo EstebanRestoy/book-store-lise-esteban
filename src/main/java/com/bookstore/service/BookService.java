@@ -84,7 +84,7 @@ public class BookService implements IBookService {
         try{
            int qtAded = CreateOrder(isbn, quantityToAskFor);
 
-           if(qtAded - quantityToAskFor != 0)
+           if(qtAded - quantityToAskFor + quantityAvailable != 0)
                AddStock(isbn, String.valueOf(qtAded - quantityToAskFor));
         }
         catch (HttpClientErrorException e){
