@@ -44,12 +44,13 @@ public class BookService implements IBookService {
     @Override
     public void RemoveStock(String isbn, String quantity) throws HttpClientErrorException, HttpServerErrorException {
         RestTemplate restTemplate = new RestTemplate();
-
         restTemplate.postForObject(Objects.requireNonNull(env.getProperty("post.remove.stock.api.url")),new HashMap<String, String>(){{
             put("isbn",isbn);
             put("quantity",quantity);
             put("key",env.getProperty("stock.api.key"));
         }},String.class);
+        logger.info("dedada");
+
     }
 
     @Override

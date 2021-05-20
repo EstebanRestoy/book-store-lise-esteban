@@ -52,13 +52,17 @@ public class BookController {
         ValidationService.isValidStock(quantity);
 
         Optional<Book> result = bookService.findOneByISBN(isbn);
+
+        logger.info(result.get().toString());
+
         if (result.isPresent()) {
             try {
+                logger.info("test2");
                 bookService.RemoveStock(isbn, quantity);
                 return SuccesBuyMessage;
             } catch (HttpClientErrorException | HttpServerErrorException e) {
                 // cas ou ou il n'y a plus de stock disponible
-                logger.info(e.getMessage());
+                logger.info(e.getMessage(),e.getStatusCode());
                 if (HttpStatus.UNPROCESSABLE_ENTITY.equals(e.getStatusCode())) {
                     bookService.OrderBook(isbn, quantity);
                     return SuccesBuyMessage;
