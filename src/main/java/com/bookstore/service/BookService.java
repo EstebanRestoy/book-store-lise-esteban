@@ -105,9 +105,11 @@ public class BookService implements IBookService {
 
         try{
             ResponseEntity<String> response = new RestTemplate().exchange(env.getProperty("wholesaler.make.order.api.url"), HttpMethod.PUT, request, String.class);
-            if(response.getStatusCode() == HttpStatus.OK){
+            if(response.getStatusCode() == HttpStatus.CREATED){
                 logger.info(response.getBody());
-                return 1;
+                Gson g = new Gson();
+                JsonObject convertedObject = new Gson().fromJson(response.getBody(), JsonObject.class);
+                return convertedObject.get("quantity").getAsInt();
             }
             throw new WholeSalerAPIException(response.getBody());
         }
