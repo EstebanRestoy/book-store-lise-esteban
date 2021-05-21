@@ -1,4 +1,4 @@
-package com.bookstore.service;
+package com.bookstore.service.interfaces;
 public interface IValidationService {
 
      void isValidISBN(String isbn);

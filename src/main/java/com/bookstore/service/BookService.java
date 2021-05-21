@@ -1,11 +1,11 @@
 package com.bookstore.service;
 
 import com.bookstore.controller.BookController;
-import com.bookstore.entity.ApiException;
 import com.bookstore.entity.Book;
 import com.bookstore.exception.StockAPIException;
 import com.bookstore.exception.WholeSalerAPIException;
 import com.bookstore.repository.BookRepository;
+import com.bookstore.service.interfaces.IBookService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.slf4j.Logger;
@@ -42,7 +42,7 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public void RemoveStock(String isbn, String quantity) throws HttpClientErrorException, HttpServerErrorException {
+    public void removeStock(String isbn, String quantity) throws HttpClientErrorException, HttpServerErrorException {
         RestTemplate restTemplate = new RestTemplate();
 
         restTemplate.postForObject(Objects.requireNonNull(env.getProperty("post.remove.stock.api.url")),new HashMap<String, String>(){{
@@ -53,7 +53,7 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public void AddStock(String isbn, String quantity) throws HttpClientErrorException, HttpServerErrorException {
+    public void addStock(String isbn, String quantity) throws HttpClientErrorException, HttpServerErrorException {
         RestTemplate restTemplate = new RestTemplate();
 
         restTemplate.postForObject(Objects.requireNonNull(env.getProperty("post.add.stock.api.url")),new HashMap<String, String>(){{
@@ -64,7 +64,7 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public void OrderBook(String isbn, String quantity)throws HttpClientErrorException, HttpServerErrorException {
+    public void orderBook(String isbn, String quantity)throws HttpClientErrorException, HttpServerErrorException {
         RestTemplate restTemplate = new RestTemplate();
 
         ResponseEntity<String> result = restTemplate.getForEntity(
@@ -81,10 +81,10 @@ public class BookService implements IBookService {
         int quantityToAskFor  = Integer.parseInt(quantity) - quantityAvailable;
 
         try{
-           int qtAded = CreateOrder(isbn, quantityToAskFor);
-           logger.info(String.valueOf(qtAded - quantityToAskFor + quantityAvailable));
+           int qtAded = createOrder(isbn, quantityToAskFor);
+            logger.info(String.valueOf(qtAded - quantityToAskFor + quantityAvailable));
            if(qtAded - quantityToAskFor + quantityAvailable != 0)
-               AddStock(isbn, String.valueOf(qtAded - quantityToAskFor));
+               addStock(isbn, String.valueOf(qtAded - quantityToAskFor));
         }
         catch (HttpClientErrorException e){
             throw new WholeSalerAPIException(e.getMessage());
@@ -92,7 +92,7 @@ public class BookService implements IBookService {
     }
 
     @Override
-    public int CreateOrder(String isbn, int quantityToAskFor)throws HttpClientErrorException, HttpServerErrorException {
+    public int createOrder(String isbn, int quantityToAskFor)throws HttpClientErrorException, HttpServerErrorException {
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer "+ env.getProperty("wholesaler.api.key"));

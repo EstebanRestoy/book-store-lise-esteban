@@ -3,7 +3,7 @@ package com.bookstore.controller;
 import java.util.Date;
 import com.bookstore.entity.ApiException;
 import com.bookstore.exception.*;
-import com.bookstore.service.IBookService;
+import com.bookstore.service.interfaces.IBookService;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,9 +57,14 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(WholeSalerAPIException.class)
     public final ResponseEntity<ApiException> handleWholeSalerAPIException(WholeSalerAPIException ex, WebRequest request) {
-        Gson g = new Gson();
-        ApiException apiException = g.fromJson(ex.getMessage().substring(7,ex.getMessage().length()-1), ApiException.class);
-        return new ResponseEntity<>(apiException, HttpStatus.SERVICE_UNAVAILABLE);
+        ApiException e = new ApiException(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(e, HttpStatus.SERVICE_UNAVAILABLE);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public final ResponseEntity<ApiException> handleUnauthorizedException(UnauthorizedException ex, WebRequest request) {
+        ApiException e = new ApiException(new Date(), ex.getMessage(), request.getDescription(false));
+        return new ResponseEntity<>(e , HttpStatus.UNAUTHORIZED);
     }
 
 }
