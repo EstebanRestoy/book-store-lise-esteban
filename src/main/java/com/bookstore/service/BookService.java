@@ -107,7 +107,7 @@ public class BookService implements IBookService {
             if(response.getStatusCode() == HttpStatus.CREATED){
                 Gson g = new Gson();
                 JsonObject convertedObject = new Gson().fromJson(response.getBody(), JsonObject.class);
-                logger.info(convertedObject.get("quantity").getAsString());
+                logger.info("quantity order" + convertedObject.get("quantity").getAsString());
                 return convertedObject.get("quantity").getAsInt();
             }
             throw new WholeSalerAPIException(response.getBody());
