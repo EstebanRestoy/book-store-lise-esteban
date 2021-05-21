@@ -44,13 +44,12 @@ public class BookService implements IBookService {
     @Override
     public void RemoveStock(String isbn, String quantity) throws HttpClientErrorException, HttpServerErrorException {
         RestTemplate restTemplate = new RestTemplate();
+
         restTemplate.postForObject(Objects.requireNonNull(env.getProperty("post.remove.stock.api.url")),new HashMap<String, String>(){{
             put("isbn",isbn);
             put("quantity",quantity);
             put("key",env.getProperty("stock.api.key"));
         }},String.class);
-        logger.info("dedada");
-
     }
 
     @Override
@@ -83,7 +82,7 @@ public class BookService implements IBookService {
 
         try{
            int qtAded = CreateOrder(isbn, quantityToAskFor);
-
+           logger.info(String.valueOf(qtAded - quantityToAskFor + quantityAvailable));
            if(qtAded - quantityToAskFor + quantityAvailable != 0)
                AddStock(isbn, String.valueOf(qtAded - quantityToAskFor));
         }
@@ -106,9 +105,9 @@ public class BookService implements IBookService {
         try{
             ResponseEntity<String> response = new RestTemplate().exchange(env.getProperty("wholesaler.make.order.api.url"), HttpMethod.PUT, request, String.class);
             if(response.getStatusCode() == HttpStatus.CREATED){
-                logger.info(response.getBody());
                 Gson g = new Gson();
                 JsonObject convertedObject = new Gson().fromJson(response.getBody(), JsonObject.class);
+                logger.info(convertedObject.get("quantity").getAsString());
                 return convertedObject.get("quantity").getAsInt();
             }
             throw new WholeSalerAPIException(response.getBody());

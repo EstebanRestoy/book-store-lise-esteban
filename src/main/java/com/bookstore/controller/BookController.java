@@ -52,12 +52,8 @@ public class BookController {
         ValidationService.isValidStock(quantity);
 
         Optional<Book> result = bookService.findOneByISBN(isbn);
-
-        logger.info(result.get().toString());
-
         if (result.isPresent()) {
             try {
-                logger.info("test2");
                 bookService.RemoveStock(isbn, quantity);
                 return SuccesBuyMessage;
             } catch (HttpClientErrorException | HttpServerErrorException e) {
