@@ -23,8 +23,6 @@ import java.util.*;
 @Service
 public class BookService implements IBookService {
 
-    private static final Logger logger = LoggerFactory.getLogger(BookController.class);
-
     @Autowired
     private BookRepository repository;
 
@@ -78,13 +76,13 @@ public class BookService implements IBookService {
         JsonObject convertedObject = new Gson().fromJson(result.getBody(), JsonObject.class);
 
         int quantityAvailable = convertedObject.get("quantity").getAsInt();
-        int quantityToAskFor  = Integer.parseInt(quantity) - quantityAvailable;
+        int quantityToOrder  = Integer.parseInt(quantity) - quantityAvailable;
+        int quantityAsked  = Integer.parseInt(quantity);
 
         try{
-           int qtAded = createOrder(isbn, quantityToAskFor);
-            logger.info(qtAded  + " " + quantityToAskFor + " "+ quantityAvailable);
-           if(qtAded - quantityToAskFor + quantityAvailable != 0)
-               addStock(isbn, String.valueOf(qtAded - quantityToAskFor));
+           int qtAded = createOrder(isbn, quantityToOrder);
+           if(qtAded - quantityAsked + quantityAvailable != 0)
+               addStock(isbn, String.valueOf(qtAded - quantityAsked));
         }
         catch (HttpClientErrorException e){
             throw new WholeSalerAPIException(e.getMessage());
@@ -107,7 +105,6 @@ public class BookService implements IBookService {
             if(response.getStatusCode() == HttpStatus.CREATED){
                 Gson g = new Gson();
                 JsonObject convertedObject = new Gson().fromJson(response.getBody(), JsonObject.class);
-                logger.info("quantity order" + convertedObject.get("quantity").getAsString());
                 return convertedObject.get("quantity").getAsInt();
             }
             throw new WholeSalerAPIException(response.getBody());

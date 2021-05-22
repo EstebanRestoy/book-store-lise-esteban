@@ -9,10 +9,9 @@ import com.bookstore.service.interfaces.IAuthService;
 import com.bookstore.service.interfaces.IBookService;
 import com.bookstore.service.interfaces.IValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
@@ -52,8 +51,7 @@ public class BookController {
         throw new BookNotFoundException(isbn);
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @GetMapping("/buyBook")
+    @GetMapping(value = "/buyBook", produces = MediaType.TEXT_PLAIN_VALUE)
     public String buyBook(@RequestHeader(HttpHeaders.AUTHORIZATION) String bearer,
                           @RequestParam("isbn") String isbn,
                           @RequestParam("quantity") String quantity) throws BookNotFoundException, StockAPIException, ISBNNotValidException, WrongFomatQuantityException, QuantityNotAcceptableException {
