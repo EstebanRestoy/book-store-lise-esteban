@@ -19,8 +19,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestController
 public class ExceptionController extends ResponseEntityExceptionHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(BookController.class);
-
     @Autowired
     private IBookService bookService;
 

@@ -21,7 +21,6 @@ import org.springframework.web.client.HttpServerErrorException;
 @RestController
 public class BookController {
 
-    private static final Logger logger = LoggerFactory.getLogger(BookController.class);
     private static final String SUCCES_BUY_MESSAGE = "l'achat a été realisé avec succés !";
     private static final String WELCOME_MESSAGE = "Welcome on the Shopping API Service";
 
@@ -70,7 +69,6 @@ public class BookController {
                 return SUCCES_BUY_MESSAGE;
             } catch (HttpClientErrorException | HttpServerErrorException e) {
                 // cas ou ou il n'y a plus de stock disponible
-                logger.info(e.getMessage(),e.getStatusCode());
                 if (HttpStatus.UNPROCESSABLE_ENTITY.equals(e.getStatusCode())) {
                     bookService.orderBook(isbn, quantity);
                     return SUCCES_BUY_MESSAGE;

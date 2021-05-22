@@ -28,7 +28,6 @@ public class AuthService implements IAuthService {
 
     @Autowired
     private UserRepository repository;
-    private static final Logger logger = LoggerFactory.getLogger(BookController.class);
 
     @Override
     public void isValidUserToken(String bearer) throws HttpClientErrorException, HttpServerErrorException {
