@@ -52,6 +52,7 @@ public class BookController {
         throw new BookNotFoundException(isbn);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @GetMapping("/buyBook")
     public String buyBook(@RequestHeader(HttpHeaders.AUTHORIZATION) String bearer,
                           @RequestParam("isbn") String isbn,

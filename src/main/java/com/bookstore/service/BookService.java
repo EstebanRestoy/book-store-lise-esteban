@@ -23,6 +23,8 @@ import java.util.*;
 @Service
 public class BookService implements IBookService {
 
+    private static final Logger logger = LoggerFactory.getLogger(BookController.class);
+
     @Autowired
     private BookRepository repository;
 
@@ -80,6 +82,7 @@ public class BookService implements IBookService {
 
         try{
            int qtAded = createOrder(isbn, quantityToAskFor);
+            logger.info(qtAded  + " " + quantityToAskFor + " "+ quantityAvailable);
            if(qtAded - quantityToAskFor + quantityAvailable != 0)
                addStock(isbn, String.valueOf(qtAded - quantityToAskFor));
         }
@@ -104,6 +107,7 @@ public class BookService implements IBookService {
             if(response.getStatusCode() == HttpStatus.CREATED){
                 Gson g = new Gson();
                 JsonObject convertedObject = new Gson().fromJson(response.getBody(), JsonObject.class);
+                logger.info("quantity order" + convertedObject.get("quantity").getAsString());
                 return convertedObject.get("quantity").getAsInt();
             }
             throw new WholeSalerAPIException(response.getBody());
